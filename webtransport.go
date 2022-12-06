@@ -138,7 +138,7 @@ func (s *Server) Run(ctx context.Context) error {
 	}
 }
 
-func (s *Server) handleSession(ctx context.Context, sess quic.Session) {
+func (s *Server) handleSession(ctx context.Context, sess quic.Connection) {
 	serverControlStream, err := sess.OpenUniStream()
 	if err != nil {
 		return
@@ -333,7 +333,7 @@ func (s *SendStream) Write(p []byte) (int, error) {
 // Session is a WebTransport session (and the Body of a WebTransport http.Request) wrapping the request stream (a quic.Stream), the two control streams and a quic.Session.
 type Session struct {
 	quic.Stream
-	Session             quic.Session
+	Session             quic.Connection
 	ClientControlStream quic.ReceiveStream
 	ServerControlStream quic.SendStream
 	responseWriter      *h3.ResponseWriter
